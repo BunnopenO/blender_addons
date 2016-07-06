@@ -1,3 +1,17 @@
+# Usage:
+# 1. Generate rigify.
+# 2. Select generated armature.
+# 3. Run script.
+# Script generates 'FCP-' bones in armature layer[23].
+# Simultaneously, other bones will be set as non deform bone.
+
+# Don't make duplicated name bone (e.g. '.001') in metarig.
+# Don't change specific bones' name. (upper_arm, forearm, hand, thigh, shin and foot)
+
+# Warning! This script is under trial.
+
+# Script copyright (C) Bunno pen O
+
 import re
 import bpy
 
