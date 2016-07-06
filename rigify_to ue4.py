@@ -83,10 +83,11 @@ for object in amt.edit_bones:
 
 # duplicate
 for object in amt.edit_bones:
-    if re_org.match(object.name) and (not re_orgheel.match(object.name)):
+    if re_org.match(object.name) \
+    and (not re.compile('ORG-heel').match(object.name)) \
+    and (not re.compile('ORG-palm').match(object.name)):
         bpy.ops.object.select_pattern(pattern=object.name)
         
-    # for twist bone
 bpy.ops.object.select_pattern(pattern='DEF-upper_arm.01.L')
 bpy.ops.object.select_pattern(pattern='DEF-forearm.02.L')
 bpy.ops.object.select_pattern(pattern='DEF-upper_arm.01.R')
@@ -117,6 +118,18 @@ for object in amt.edit_bones:
         object.name = re_duplicated.sub('', object.name)
         
         object.use_deform = True
+
+# change twist bones' parent
+amt.edit_bones['FCP-twist_upper_arm.01.L'].parent = amt.edit_bones['FCP-upper_arm.L']
+amt.edit_bones['FCP-twist_upper_arm.01.R'].parent = amt.edit_bones['FCP-upper_arm.R']
+amt.edit_bones['FCP-twist_thigh.01.L'].parent = amt.edit_bones['FCP-thigh.L']
+amt.edit_bones['FCP-twist_thigh.01.R'].parent = amt.edit_bones['FCP-thigh.R']
+
+# change finger bones' parent
+amt.edit_bones['FCP-thumb.01.L'].parent = amt.edit_bones['FCP-f_index.01.L'].parent = amt.edit_bones['FCP-f_middle.01.L'].parent = \
+amt.edit_bones['FCP-f_ring.01.L'].parent = amt.edit_bones['FCP-f_pinky.01.L'].parent = amt.edit_bones['FCP-hand.L']
+amt.edit_bones['FCP-thumb.01.R'].parent = amt.edit_bones['FCP-f_index.01.R'].parent = amt.edit_bones['FCP-f_middle.01.R'].parent = \
+amt.edit_bones['FCP-f_ring.01.R'].parent = amt.edit_bones['FCP-f_pinky.01.R'].parent = amt.edit_bones['FCP-hand.R']
         
 bpy.ops.object.mode_set(mode='OBJECT')
 
