@@ -166,7 +166,7 @@ for bone in bpy.context.selected_pose_bones:
 
 # add constraints
     
-bpy.ops.pose.select_all(action='DESELECT') # uppder arm L
+bpy.ops.pose.select_all(action='DESELECT') # upper arm L
 amt.bones['FCP-upper_arm.L'].select = True
 
 for bone in bpy.context.selected_pose_bones:
@@ -238,7 +238,7 @@ for bone in bpy.context.selected_pose_bones:
 
 # mirror bones
     
-bpy.ops.pose.select_all(action='DESELECT') # uppder arm R
+bpy.ops.pose.select_all(action='DESELECT') # upper arm R
 amt.bones['FCP-upper_arm.R'].select = True
 
 for bone in bpy.context.selected_pose_bones:
