@@ -112,9 +112,6 @@ for object in amt.edit_bones:
             object.layers[29] = False
             object.name = re_def.sub('FCP-twist_', object.name)
             
-            if re_02.search(object.name):
-                flip_bone(object.name) # flip .02 twist bones
-            
         object.name = re_duplicated.sub('', object.name)
         
         object.use_deform = True
@@ -196,10 +193,7 @@ bpy.ops.pose.select_all(action='DESELECT')
 amt.bones['FCP-twist_forearm.02.L'].select = True
 
 for bone in bpy.context.selected_pose_bones:
-    add_copy_location(bone, "forearm_hose_end.L")
-    add_copy_rotation_invert(bone, "DEF-forearm.02.L", 1.0)
-    add_damped_track(bone, "forearm_hose.L")
-    add_stretch_to(bone, "forearm_hose.L")
+    add_copy_transforms(bone, "DEF-forearm.02.L")
     
 bpy.ops.pose.select_all(action='DESELECT') # hand L
 amt.bones['FCP-hand.L'].select = True
@@ -234,10 +228,7 @@ bpy.ops.pose.select_all(action='DESELECT')
 amt.bones['FCP-twist_shin.02.L'].select = True
 
 for bone in bpy.context.selected_pose_bones:
-    add_copy_location(bone, "shin_hose_end.L")
-    add_copy_rotation_invert(bone, "DEF-shin.02.L", 1.0)
-    add_damped_track(bone, "shin_hose.L")
-    add_stretch_to(bone, "shin_hose.L")
+    add_copy_transforms(bone, "DEF-shin.02.L")
     
 bpy.ops.pose.select_all(action='DESELECT') # foot L
 amt.bones['FCP-foot.L'].select = True
@@ -274,10 +265,7 @@ bpy.ops.pose.select_all(action='DESELECT')
 amt.bones['FCP-twist_forearm.02.R'].select = True
 
 for bone in bpy.context.selected_pose_bones:
-    add_copy_location(bone, "forearm_hose_end.R")
-    add_copy_rotation_invert(bone, "DEF-forearm.02.R", 1.0)
-    add_damped_track(bone, "forearm_hose.R")
-    add_stretch_to(bone, "forearm_hose.R")
+    add_copy_transforms(bone, "DEF-forearm.02.R")
     
 bpy.ops.pose.select_all(action='DESELECT') # hand R
 amt.bones['FCP-hand.R'].select = True
@@ -312,10 +300,7 @@ bpy.ops.pose.select_all(action='DESELECT')
 amt.bones['FCP-twist_shin.02.R'].select = True
 
 for bone in bpy.context.selected_pose_bones:
-    add_copy_location(bone, "shin_hose_end.R")
-    add_copy_rotation_invert(bone, "DEF-shin.02.R", 1.0)
-    add_damped_track(bone, "shin_hose.R")
-    add_stretch_to(bone, "shin_hose.R")
+    add_copy_transforms(bone, "DEF-shin.02.R")
     
 bpy.ops.pose.select_all(action='DESELECT') # foot R
 amt.bones['FCP-foot.R'].select = True
