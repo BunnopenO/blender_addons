@@ -2,6 +2,11 @@
 ビルトインのFBXエクスポートアドオンから修正。
 UE4にてArmatureオブジェクトがルートボーンとして読み込まれる問題を解消します。
 
+***
+
+This based on built-in FBX export addon.
+It makes armature object to be not imported as root bone in UE4. (Extra root bone problem)
+
 ## rigify_to_ue4
 Rigifyによって生成されたrigをUE4Mannequinのスケルトンに近いものに変換します。
 * 手足に複数のツイストボーンを持ちます。
@@ -18,8 +23,10 @@ Rigifyによって生成されたrigをUE4Mannequinのスケルトンに近い�
 
 ##### 注意！　このスクリプトは開発中のものです。
 
+***
+
 This script converts a rig into similar bone structure of UE4 Mannequin's skeleton.
-* Converted rig has some twist bones in its arms and legs.
+* Converted rig has some twist bones on its limbs.
 * Partial support of Rigify's tweak bones.
 
 #### Usages
