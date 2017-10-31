@@ -23,9 +23,6 @@ Rigifyによって生成されたrigをUE4Mannequinのスケルトンに近い�
 
 ##### 注意！　このスクリプトは開発中のものです。
 
-##既知の問題
-* ２点が垂直な直線状に位置している場合、分割のみ行われてObjectモードに戻ります。Undoは機能します。
-
 ***
 
 This script converts a rig into similar bone structure of UE4 Mannequin's skeleton.
