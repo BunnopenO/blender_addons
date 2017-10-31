@@ -41,11 +41,11 @@ This script converts a rig into similar bone structure of UE4 Mannequin's skelet
 ##### Warning! This script is under trial.
 
 ## catenary.py
-頂点編集において懸垂線（カテナリー）を作成します。
+頂点編集において懸垂線(カテナリー)を作成します。
 
 #### 使用法
 Editモードで２点を選択した後、「Create Catenary」で適用します。
 分割数と垂らす度合い、上下逆転のオプションがあります。
 
 #### 既知の問題
-* ２点が垂直な直線状に位置している場合、分割のみ行われてObjectモードに戻ります。Undoは機能します。
+* ２点が完全に鉛直な位置関係(ワールド座標系)にある場合、分割のみ行われてObjectモードに戻ります。Undoは機能します。
