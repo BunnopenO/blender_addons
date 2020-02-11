@@ -38,7 +38,7 @@ This script converts a rig into similar bone structure of UE4 Mannequin's skelet
 * Don't make duplicated name bone (e.g. '.001') in metarig.
 * Don't change specific bones' name. (upper_arm, forearm, hand, thigh, shin and foot)
 
-##### Warning! This script is under trial.
+##### Warning! This script is experimental.
 
 ## catenary.py
 頂点編集において懸垂線(カテナリー)を作成します。
