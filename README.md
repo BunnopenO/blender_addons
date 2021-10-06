@@ -1,4 +1,4 @@
-##2021.10.06 更新
+## 2021.10.06 更新
 OrdinaryMenuMode.pyとcatenary.pyは2.8以降のblenderで動作します。
 それ以外は2.7以前で動作します。
 
