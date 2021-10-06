@@ -1,3 +1,7 @@
+##2021.10.06 更新
+OrdinaryMenuMode.pyとcatenary.pyは2.8以降のblenderで動作します。
+それ以外は2.7以前で動作します。
+
 ## export_fbx_bin
 ビルトインのFBXエクスポートアドオンから修正。
 UE4にてArmatureオブジェクトがルートボーンとして読み込まれる問題を解消します。
