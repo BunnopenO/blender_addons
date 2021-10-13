@@ -6,7 +6,7 @@ import math
 bl_info = {
 	"name": "Snap and Align Menu",
 	"author": "obusto",
-	"version": (0,1),
+	"version": (0,2),
 	"blender": (2,93,4),
 	"description": "Replacing for the snap menu",
 	"location": "wm.call_menu, VIEW3D_MT_snap_align_menu",
@@ -33,6 +33,41 @@ def rotate_cursor(rotation_euler):
 	bpy.context.scene.cursor.rotation_euler = rotation_euler
 
 	bpy.ops.wm.context_set_enum(data_path="scene.cursor.rotation_mode", value=mode)
+
+def rotate_cursor_axis(normal, tangent):
+	cross = normal.cross(tangent)
+	tangent = -normal.cross(cross)
+
+	normal.normalize()
+	tangent.normalize()
+	cross.normalize()
+
+	#print("normal : " + str(normal))
+	#print("tangent : " + str(tangent))
+	#print("cross : " + str(cross))
+
+	mat = mathutils.Matrix().to_3x3()
+
+	mat[0][0] = tangent.x
+	mat[0][1] = cross.x
+	mat[0][2] = normal.x
+
+	mat[1][0] = tangent.y
+	mat[1][1] = cross.y
+	mat[1][2] = normal.y
+
+	mat[2][0] = tangent.z
+	mat[2][1] = cross.z
+	mat[2][2] = normal.z
+
+	euler = mathutils.Euler((0.0, 0.0, math.radians(90.0)), 'XYZ')
+	euler.rotate(mat.to_euler())
+				
+	#print(math.degrees(euler.x))
+	#print(math.degrees(euler.y))
+	#print(math.degrees(euler.z))
+
+	rotate_cursor(euler)
 
 class VIEW3D_OPT_align_cursor_to_world(bpy.types.Operator):
 	bl_idname = "view3d.align_cursor_to_world"
@@ -67,60 +102,62 @@ class VIEW3D_OPT_align_cursor_to_normal(bpy.types.Operator):
 	bl_label = "Cursor to Face Normal"
 	bl_description = "Align 3D Cursor Orientation to Face Normal."
 	bl_options = {'REGISTER', 'UNDO'}
+
+	def in_mesh_edit():
+		print("a")
+
+	def in_armature_edit():
+		print("a")
+
+	def in_pose():
+		print("a")
 	
 	def execute(self, context):
 		obj = bpy.context.edit_object
 
 		if obj:
-			bm = bmesh.from_edit_mesh(obj.data)
-			selected_faces = [face for face in bm.faces if face.select]
-			if len(selected_faces) > 0:
+			if bpy.context.mode == "EDIT_MESH":
+				bm = bmesh.from_edit_mesh(obj.data)
+				selected_faces = [face for face in bm.faces if face.select]
+				if len(selected_faces) > 0:
+					normal = mathutils.Vector((0.0, 0.0, 0.0))
+					tangent = mathutils.Vector((0.0, 0.0, 0.0))
+					for face in selected_faces:
+						normal += face.normal
+						tangent += face.calc_tangent_edge_pair()
+
+					normal.rotate(obj.rotation_euler)
+					tangent.rotate(obj.rotation_euler)
+
+					rotate_cursor_axis(normal, tangent)
+			elif bpy.context.mode == "EDIT_ARMATURE":
+				if len(bpy.context.selected_bones) > 0:
+					normal = mathutils.Vector((0.0, 0.0, 0.0))
+					tangent = mathutils.Vector((0.0, 0.0, 0.0))
+					for bone in bpy.context.selected_bones:
+						normal += bone.y_axis
+						tangent += bone.z_axis
+
+					normal.rotate(obj.rotation_euler)
+					tangent.rotate(obj.rotation_euler)
+
+					rotate_cursor_axis(normal, tangent)
+
+		obj = bpy.context.view_layer.objects.active
+
+		if obj and bpy.context.mode == "POSE":
+			if len(bpy.context.selected_pose_bones) > 0:
 				normal = mathutils.Vector((0.0, 0.0, 0.0))
-				for face in selected_faces:
-					normal += face.normal
-
 				tangent = mathutils.Vector((0.0, 0.0, 0.0))
-				for face in selected_faces:
-					tangent += face.calc_tangent_edge_pair()
-
-				print(obj.rotation_euler)
+				for bone in bpy.context.selected_pose_bones:
+					normal += bone.y_axis
+					tangent += bone.z_axis
 
 				normal.rotate(obj.rotation_euler)
 				tangent.rotate(obj.rotation_euler)
 
-				cross = normal.cross(tangent)
-				tangent = -normal.cross(cross)
+				rotate_cursor_axis(normal, tangent)
 
-				normal.normalize()
-				tangent.normalize()
-				cross.normalize()
-
-				#print("normal : " + str(normal))
-				#print("tangent : " + str(tangent))
-				#print("cross : " + str(cross))
-
-				mat = mathutils.Matrix().to_3x3()
-
-				mat[0][0] = tangent.x
-				mat[0][1] = cross.x
-				mat[0][2] = normal.x
-
-				mat[1][0] = tangent.y
-				mat[1][1] = cross.y
-				mat[1][2] = normal.y
-
-				mat[2][0] = tangent.z
-				mat[2][1] = cross.z
-				mat[2][2] = normal.z
-
-				euler = mathutils.Euler((0.0, 0.0, math.radians(90.0)), 'XYZ')
-				euler.rotate(mat.to_euler())
-				
-				#print(math.degrees(euler.x))
-				#print(math.degrees(euler.y))
-				#print(math.degrees(euler.z))
-
-				rotate_cursor(euler)
 
 		return {'FINISHED'}
 
@@ -161,9 +198,13 @@ class SnapAlignMenu(bpy.types.Menu):
 		layout.operator(VIEW3D_OPT_align_cursor_to_local.bl_idname, icon='ORIENTATION_LOCAL')
 
 		row = layout.row(align=True)
-		row.operator(VIEW3D_OPT_align_cursor_to_normal.bl_idname, icon='NORMALS_FACE')
 
-		if bpy.context.mode != "EDIT_MESH" :
+		if bpy.context.mode == "EDIT_MESH":
+			row.operator(VIEW3D_OPT_align_cursor_to_normal.bl_idname, icon='NORMALS_FACE')
+		elif bpy.context.mode == "EDIT_ARMATURE" or bpy.context.mode == "POSE":
+			row.operator(VIEW3D_OPT_align_cursor_to_normal.bl_idname, text="Cursor to Bone (Normal)", icon='BONE_DATA')
+		else:
+			row.operator(VIEW3D_OPT_align_cursor_to_normal.bl_idname, icon='NORMALS_FACE')
 			row.enabled = False
 		
 classes = {

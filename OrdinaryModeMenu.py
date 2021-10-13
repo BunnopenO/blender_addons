@@ -3,7 +3,7 @@ import bpy
 bl_info = {
 	"name": "Ordinary Mode Menu",
 	"author": "obusto",
-	"version": (0,1,1),
+	"version": (0,1,2),
 	"blender": (2,93,4),
 	"description": "Activate the menu which sets the object interaction mode.",
 	"location": "wm.call_menu, VIEW3D_MT_ordinary_mode_menu",
@@ -30,7 +30,6 @@ class OrdinaryModeMenu(bpy.types.Menu):
 			layout.operator("object.mode_set", text="Weight Paint", icon='WPAINT_HLT').mode = 'WEIGHT_PAINT'
 			layout.operator("object.mode_set", text="Texture Paint", icon='TPAINT_HLT').mode = 'TEXTURE_PAINT'
 		elif bpy.context.view_layer.objects.active.type == 'ARMATURE':
-			layout.operator(MODE_OPT_hit_pose.bl_idname, icon='POSE_HLT')
 			layout.operator("object.mode_set", text="Pose Mode", icon='POSE_HLT').mode = 'POSE'
 		elif bpy.context.view_layer.objects.active.type == 'GPENCIL':
 			layout.operator("object.mode_set", text="Edit Mode", icon='EDITMODE_HLT').mode = 'EDIT_GPENCIL'
