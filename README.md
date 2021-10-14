@@ -1,7 +1,7 @@
 ## 2021.10.14 更新
-*OrdinaryShadingExMenu.py : パイではないシェーディングメニュー
-*SnapAlignMenu.py : Shift + S で呼び出すスナップメニューの代わりとして使えるメニュー
-*2.8以降のblenderで動作します。
+* OrdinaryShadingExMenu.py : パイではないシェーディングメニュー
+* SnapAlignMenu.py : Shift + S で呼び出すスナップメニューの代わりとして使えるメニュー
+* 2.8以降のblenderで動作します。
 
 ## 2021.10.06 更新
 OrdinaryMenuMode.pyとcatenary.pyは2.8以降のblenderで動作します。
